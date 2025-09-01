@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Room</title>
+</head>
+<body>
+  <h2 id="roomTitle"></h2>
+  <div id="messages" style="border:1px solid #ccc; height:200px; overflow-y:scroll; padding:5px;">
+    <!-- messages appear here -->
+  </div>
+
+  <form id="messageForm">
+    <input type="text" id="messageInput" placeholder="Type a message..." required>
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+    const room = params.get("room");
+
+    document.getElementById("roomTitle").innerText = `Room: ${room}`;
+
+    const messagesDiv = document.getElementById("messages");
+    const messageInput = document.getElementById("messageInput");
+
+    // Fetch messages from backend
+    async function loadMessages() {
+      const res = await fetch(`/rooms/${room}/messages`);
+      await fetch(`/rooms/${room}/messages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sender: username, text: text })
+      });
+    }
+
+    // Send a new message
+    document.getElementById("messageForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const text = messageInput.value;
+
+      await fetch(`http://localhost:8000/rooms/${room}/messages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sender: username, text: text })
+      });
+
+      messageInput.value = "";
+      loadMessages(); // refresh
+    });
+
+    // Poll every 2 seconds for new messages
+    setInterval(loadMessages, 2000);
+    loadMessages();
+  </script>
+</body>
+</html>

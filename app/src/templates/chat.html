@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Room</title>
+</head>
+<body>
+  <h2>Chat Room: {{ room }}</h2>
+  <div id="messages" style="border:1px solid #ccc; height:300px; overflow:auto; padding:5px;"></div>
+
+  <form id="chatForm">
+    <input type="text" id="messageInput" placeholder="Type a message..." required>
+    <button type="submit">Send</button>
+  </form>
+
+  <!-- Load external JS -->
+  <script>
+    // Pass username and room from server to JS
+    const username = "{{ username }}";
+    const room = "{{ room }}";
+  </script>
+  <script src="{{ url_for('static', path='js/chat.js') }}"></script>
+</body>
+</html>

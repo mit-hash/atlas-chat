@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login to Chat</title>
+</head>
+<body>
+  <h2>Join a Chat Room</h2>
+  <form id="loginForm">
+    <label>Username: <input type="text" id="username" required></label><br>
+    <label>Room: <input type="text" id="room" required></label><br>
+    <button type="submit">Join</button>
+  </form>
+
+  <!-- Load external JS -->
+  <script src="{{ url_for('static', path='js/login.js') }}"></script>
+</body>
+</html>
