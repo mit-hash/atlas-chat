@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Chat Room</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/chat.css') }}">
 </head>
 <body>
   <h2>Chat Room: {{ room }}</h2>
@@ -12,9 +13,7 @@
     <button type="submit">Send</button>
   </form>
 
-  <!-- Load external JS -->
   <script>
-    // Pass username and room from server to JS
     const username = "{{ username }}";
     const room = "{{ room }}";
   </script>

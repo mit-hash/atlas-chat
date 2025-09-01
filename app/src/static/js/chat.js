@@ -2,12 +2,6 @@ const messagesDiv = document.getElementById("messages");
 const chatForm = document.getElementById("chatForm");
 const messageInput = document.getElementById("messageInput");
 
-// if (!username || !room) {
-//     alert("Missing username or room!");
-// }
-
-//console.log("username:", username, "room:", room);
-
 
 // Fetch existing messages from backend
 async function loadMessages() {
@@ -41,5 +35,29 @@ chatForm.addEventListener("submit", async (event) => {
   loadMessages();
 });
 
+let lastTimestamp = null;
+
+async function loadNewMessages() {
+  let url = `/chat/${room}/messages`;
+  if (lastTimestamp) url += `?since=${encodeURIComponent(lastTimestamp)}`;
+
+  const res = await fetch(url);
+  const messages = await res.json();
+
+  if (messages.length > 0) {
+    messages.forEach(msg => {
+      const p = document.createElement("p");
+      p.textContent = `${msg.sender}: ${msg.text}`;
+      messagesDiv.appendChild(p);
+    });
+
+    lastTimestamp = messages[messages.length - 1].timestamp;
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+}
+
+setInterval(loadNewMessages, 2000);
+loadNewMessages();
+
 // Load messages immediately on page load
-loadMessages();
+//loadMessages();
