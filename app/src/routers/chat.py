@@ -1,24 +1,19 @@
-#from db.mongo import messages_collection
+from db.mongo import db
 from fastapi import APIRouter
 from pydantic import BaseModel
+from models.message import Message
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 
-class Message(BaseModel):
-    sender: str
-    text: str
-
-rooms = {}
-
 @router.get("/{room}/messages")
-def get_messages(room: str):
-    return rooms.get(room, [])
+async def get_messages(room: str):
+    messages_cursor = db.rooms.find({"room": room})
+    messages = await messages_cursor.to_list(length=1000)
+    return [{"sender": m["sender"], "text": m["text"]} for m in messages]
 
 @router.post("/{room}/messages")
-def post_message(room: str, message: Message):
-    if room not in rooms:
-        rooms[room] = []
-    rooms[room].append(message.model_dump())
+async def post_message(room: str, message: Message):
+    await db.rooms.insert_one({"room": room, "sender": message.sender, "text": message.text})
     return {"status": "ok"}
 
 # # Get messages for a room

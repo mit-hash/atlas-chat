@@ -18,24 +18,3 @@ async def chat_page(request: Request, username: str, room: str):
 @app.get("/", response_class=HTMLResponse)
 async def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
-
-# from pydantic import BaseModel
-
-# class Message(BaseModel):
-#     sender: str
-#     text: str
-
-# @app.get("/chat/rooms")
-# def get_messages():
-#     return rooms.keys
-
-# @app.get("/chat/{room}/messages")
-# def get_messages(room: str):
-#     return rooms.get(room, [])
-
-# @app.post("/chat/{room}/messages")
-# def post_message(room: str, message: Message):
-#     if room not in rooms:
-#         rooms[room] = []
-#     rooms[room].append(message.model_dump())
-#     return {"status": "ok"}
