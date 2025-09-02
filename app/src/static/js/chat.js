@@ -100,7 +100,20 @@ async function loadMessages() {
   }
 }
 
-// Load only new messages
+// // Load only new messages
+// async function loadNewMessages() {
+//   let url = `/chat/${room}/messages`;
+//   if (lastTimestamp) url += `?since=${encodeURIComponent(lastTimestamp)}`;
+
+//   const res = await fetch(url);
+//   const messages = await res.json();
+
+//   if (messages.length > 0) {
+//     messages.forEach(appendMessage);
+//     lastTimestamp = messages[messages.length - 1].timestamp;
+//   }
+// }
+
 async function loadNewMessages() {
   let url = `/chat/${room}/messages`;
   if (lastTimestamp) url += `?since=${encodeURIComponent(lastTimestamp)}`;
@@ -127,9 +140,9 @@ chatForm.addEventListener("submit", async (e) => {
   });
 
   messageInput.value = '';
-  loadNewMessages();
+  //loadNewMessages();
 });
 
 // Initial load + auto-refresh
-loadMessages();
+//loadMessages();
 setInterval(loadNewMessages, 2000);
