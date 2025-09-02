@@ -1,15 +1,15 @@
 
 # Atlas Chat App
 
-A real-time chat application built with FastAPI and MongoDB, supporting multiple rooms, message history, and per-user message counts. Designed with simplicity, efficiency, and maintainability in mind.
+A simplified chat application built with FastAPI and MongoDB, supporting multiple rooms and message history.
 
 ---
 
-## Design Decisions & Trade-offs
+## Design & Trade-offs
 
-- **Jinja2 templates**: Chosen for server-side rendering of chat pages. Simpler than a full frontend framework and keeps the app lightweight.
+- **Jinja2 templates**: Chosen for server-side rendering of chat pages. Simpler than a full frontend framework and keeps the app lightweight. A production ready app should support a separate frontend FW such as React to maintain full scalability.
 - **Message counter per user**: Stored in MongoDB to reduce repeated computation for `/users/{username}/count` requests. This precomputation trades a small amount of storage for faster reads.
-- **Polling for new messages**: Implemented via repeated fetch requests. Simpler than WebSockets for a minimal implementation and avoids extra complexity. Could be replaced with WebSockets in future iterations for true real-time updates.
+- **Polling for new messages**: Implemented via repeated fetch requests to load updating messages from DB. Simpler to implement than WebSockets for a minimal implementation and avoids extra complexity. Should be replaced with WebSockets or similar solutions in future iterations for true real-time updates.
 
 ### Predetermined stack
 
@@ -25,6 +25,7 @@ A real-time chat application built with FastAPI and MongoDB, supporting multiple
 - Message history with timestamps
 - Per-user message count
 - Minimal, functional UI with Jinja2
+- Future bonus, not implemented: user authentication 
 
 ---
 
@@ -38,7 +39,7 @@ A real-time chat application built with FastAPI and MongoDB, supporting multiple
 
 ## Running Locally
 
-### Option 1: Docker (recommended)
+### Option 1: Docker
 
 ```bash
 docker-compose up --build
@@ -71,9 +72,9 @@ uvicorn main:app --reload
 
 ## Future Improvements
 
-* Switch from polling to WebSockets for real-time updates or similar mechanism
+* Switch from polling messages to WebSockets for real-time updates or similar mechanism
 * Add authentication and session management for multi-user security
-* Optimize message queries with indexes
+* Optimize message queries
 * Enhance UI/UX with a separate service for scalability + frontend framework
 
 ---
@@ -105,7 +106,7 @@ uvicorn main:app --reload
 
 ---
 
-### Message Counter Example
+### Message Counter API call Example
 
 ```javascript
 async function countMessages(username) {
