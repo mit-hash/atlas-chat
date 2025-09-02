@@ -4,6 +4,6 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
   const username = document.getElementById("username").value;
   const room = document.getElementById("room").value;
 
-  // Redirect to chat page with params in the URL
+  //Redirect to chat page
   window.location.href = `/chat?username=${encodeURIComponent(username)}&room=${encodeURIComponent(room)}`;
 });

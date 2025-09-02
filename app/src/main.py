@@ -4,14 +4,17 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from routers import chat, auth, users
 
+#Init Application
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
+#Routers
 app.include_router(chat.router)
 app.include_router(auth.router)
 app.include_router(users.router)
 
+#Pages
 @app.get("/chat", response_class=HTMLResponse)
 async def chat_page(request: Request, username: str, room: str):
     return templates.TemplateResponse("chat.html", {"request": request, "username": username, "room": room})
