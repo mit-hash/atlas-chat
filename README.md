@@ -1,5 +1,5 @@
 
-# FastAPI Chat App
+# Atlas Chat App
 
 A real-time chat application built with FastAPI and MongoDB, supporting multiple rooms, message history, and per-user message counts. Designed with simplicity, efficiency, and maintainability in mind.
 
