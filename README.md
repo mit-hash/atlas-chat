@@ -1,3 +1,4 @@
+
 # FastAPI Chat App
 
 A real-time chat application built with FastAPI and MongoDB, supporting multiple rooms, message history, and per-user message counts. Designed with simplicity, efficiency, and maintainability in mind.
@@ -27,13 +28,21 @@ A real-time chat application built with FastAPI and MongoDB, supporting multiple
 
 ---
 
+### Notes & Trade-offs
+
+* Messages are sorted by timestamp and limited to recent entries for performance.
+* Message counts are precomputed per user to avoid repeated expensive aggregation queries.
+* Rooms and messages are stored in MongoDB, which allows flexible document schemas.
+
+---
+
 ## Running Locally
 
 ### Option 1: Docker (recommended)
 
 ```bash
 docker-compose up --build
-````
+```
 
 * FastAPI runs on: [http://localhost:8000](http://localhost:8000)
 * MongoDB runs inside the container
@@ -62,10 +71,10 @@ uvicorn main:app --reload
 
 ## Future Improvements
 
-* Switch from polling to WebSockets for real-time updates
+* Switch from polling to WebSockets for real-time updates or similar mechanism
 * Add authentication and session management for multi-user security
 * Optimize message queries with indexes
-* Enhance UI/UX with a frontend framework
+* Enhance UI/UX with a separate service for scalability + frontend framework
 
 ---
 
@@ -75,10 +84,15 @@ uvicorn main:app --reload
 
 | Method | Endpoint                  | Description                                      |
 | ------ | ------------------------- | ------------------------------------------------ |
+| GET    | `/users/{username}/count` | Get the total number of messages sent by a user. |
+
+### Future authentication support 
+
+| Method | Endpoint                  | Description                                      |
+| ------ | ------------------------- | ------------------------------------------------ |
 | POST   | `/auth/login`             | Log in a user (creates session cookie).          |
 | POST   | `/auth/logout`            | Log out the user (deletes session cookie).       |
 | GET    | `/auth/me`                | Get the current logged-in username.              |
-| GET    | `/users/{username}/count` | Get the total number of messages sent by a user. |
 
 ### Chat Rooms & Messages
 
@@ -105,10 +119,3 @@ async function countMessages(username) {
 }
 ```
 
----
-
-### Notes & Trade-offs
-
-* Messages are sorted by timestamp and limited to recent entries for performance.
-* Message counts are precomputed per user to avoid repeated expensive aggregation queries.
-* Rooms and messages are stored in MongoDB, which allows flexible document schemas.
