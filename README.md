@@ -39,17 +39,8 @@ A simplified chat application built with FastAPI and MongoDB, supporting multipl
 
 ## Running Locally
 
-### Option 1: Docker
-
-```bash
-docker-compose up --build
-```
-
 * FastAPI runs on: [http://localhost:8000](http://localhost:8000)
-* MongoDB runs inside the container
-
-### Option 2: Manual setup
-
+* Manual setup
 1. Install and run MongoDB:
 
 ```bash
