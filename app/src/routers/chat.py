@@ -1,5 +1,6 @@
 from db.mongo import db
 from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 from models.message import Message
 
 router = APIRouter(prefix="/chat", tags=["chat"])
@@ -21,6 +22,7 @@ async def list_rooms():
     rooms = await db.rooms.distinct("name")
     return rooms
 
+
 @router.get("/{room}/users")
 async def list_users_in_room(room_name: str):
     """List all users in a given room."""
@@ -29,8 +31,18 @@ async def list_users_in_room(room_name: str):
         raise HTTPException(status_code=404, detail="Room not found")
     return room.get("users", [])
 
+
 @router.get("/{room}/messages/count")
 async def count_messages_in_room(room_name: str):
     """Get the number of messages in a given room."""
     count = await db.messages.count_documents({"room": room_name})
     return {"room": room_name, "message_count": count}
+
+
+# # Get messages for a room
+# def get_messages(room: str):
+#     return list(messages_collection.find({"room": room}, {"_id": 0}))
+# - Listing all rooms that currently exist.
+# - Listing all users in a given room.
+# - The number of messages in each room.
+# - The number of messages sent by each user overall (across all rooms).
